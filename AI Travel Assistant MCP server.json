@@ -1,0 +1,166 @@
+{
+  "name": "Assignment 5 Travel MCP server",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "a8a78805-dd91-4f61-a21e-b74836aa1215"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        -208,
+        192
+      ],
+      "id": "90b7670a-57e5-4889-94b3-0dbc32c45e94",
+      "name": "MCP Server Trigger",
+      "webhookId": "a8a78805-dd91-4f61-a21e-b74836aa1215"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool only when the user's request matches its purpose. Do not call this tool if another specialized tool can answer the request more accurately.\n\nPurpose:\nSearch for popular tourist attractions and places of interest using OpenStreetMap Nominatim.\n\nUse this tool whenever the user wants sightseeing recommendations, attractions, landmarks, beaches, parks, museums, or places to visit.\n\nInput:\n- destination\n\nReturns:\n- Attraction name\n- Display name\n- Coordinates\n\nDo NOT use this tool for hotels, restaurants, weather, or currency information.\n\nExample:\n\"What are the best tourist attractions in Cox's Bazar?\"\n\"Places to visit in Sajek.\"\n\nAfter receiving the result, return only the relevant information needed to generate a personalized travel recommendation.",
+        "url": "https://nominatim.openstreetmap.org/search?q=Tourism+cox%27s+bazar+chattogram&format=jsonv2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -80,
+        448
+      ],
+      "id": "05c703e5-fd69-48c4-aeb1-45503aa43bc6",
+      "name": "Tourist Attraction"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool only when the user's request matches its purpose. Do not call this tool if another specialized tool can answer the request more accurately.\n\nPurpose:\nSearch for hotels near the requested travel destination using OpenStreetMap Nominatim.\n\nUse this tool whenever the user wants hotel recommendations, accommodation options, nearby hotels, or places to stay.\n\nInput:\n- destination\n\nReturns:\n- Hotel name\n- Display name\n- Latitude\n- Longitude\n\nDo NOT use this tool for restaurants, tourist attractions, weather, or currency information.\n\nExample:\n\"Find hotels in Cox's Bazar.\"\n\"Suggest places to stay in Sajek.\"\n\nAfter receiving the result, return only the relevant information needed to generate a personalized travel recommendation.",
+        "url": "https://nominatim.openstreetmap.org/search?q=hotels+in+Coxs_Bazar&format=json&limit=3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -288,
+        400
+      ],
+      "id": "78cef321-6ef2-4090-9713-d5f7f57b7ab7",
+      "name": "Hotel"
+    },
+    {
+      "parameters": {
+        "toolDescription": "=Call this tool only when the user's request matches its purpose. Do not call this tool if another specialized tool can answer the request more accurately.\n\nPurpose:\nRetrieve the current weather conditions for a travel destination.\n\nUse this tool whenever the user asks about weather, travel planning, packing suggestions, or whether it is a good time to visit a location.\n\nInput:\n- destination (city or location name)\n\nReturns:\n- Weather condition\n- Temperature\n- Humidity\n\nDo NOT use this tool for hotel, restaurant, attraction, or currency requests.\n\nExample:\n\"What's the weather in Cox's Bazar?\"\n\"Should I visit Bandarban tomorrow?\"\n\nAfter receiving the result, return only the relevant information needed to generate a personalized travel recommendation.",
+        "url": "https://wttr.in/Coxs_Bazar?format=%C+%t+%h",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -480,
+        336
+      ],
+      "id": "86ec3568-a743-48fb-9d90-34b1c898d221",
+      "name": "Weather"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool only when the user's request matches its purpose. Do not call this tool if another specialized tool can answer the request more accurately.\n\nPurpose:\nFind restaurants near the requested destination using OpenStreetMap Nominatim.\n\nUse this tool whenever the user asks about food, restaurants, dining options, nearby places to eat, or local cuisine.\n\nInput:\n- destination\n\nReturns:\n- Restaurant name\n- Location\n- Coordinates\n\nDo NOT use this tool for hotels, weather, attractions, or currency exchange.\n\nExample:\n\"Find restaurants in Bandarban.\"\n\"Where can I eat in Cox's Bazar?\"\n\nAfter receiving the result, return only the relevant information needed to generate a personalized travel recommendation.",
+        "url": "https://nominatim.openstreetmap.org/search?q=restaurants+in+Coxs_Bazar&format=json&limit=3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        80,
+        400
+      ],
+      "id": "9bddad78-2630-4df0-a17d-cadbf2ffdfd3",
+      "name": "Restaurant"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool only when the user's request matches its purpose. Do not call this tool if another specialized tool can answer the request more accurately.\n\nPurpose:\nRetrieve the latest currency exchange rates using ExchangeRate API.\n\nUse this tool only when the destination involves international travel or the user requests exchange rate or currency conversion information.\n\nInput:\n- Base currency\n- Target currency (optional)\n\nReturns:\n- Current exchange rate\n- Supported currencies\n\nDo NOT use this tool for hotels, restaurants, attractions, or weather information.\n\nExample:\n\"USD to BDT exchange rate.\"\n\"How much is 1 USD in NPR?\"\n\nAfter receiving the result, return only the relevant information needed to generate a personalized travel recommendation.",
+        "url": "https://open.er-api.com/v6/latest/USD",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        320
+      ],
+      "id": "eb77e40c-17fa-4ec3-812c-a8f070d6b23b",
+      "name": "Currency"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Tourist Attraction": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hotel": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurant": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Currency": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "64f75b26-2d3e-48f6-9e4a-1ccb5ab72501",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2d86684f3eb3f009dfc3a3ddf36d43cd14c65bf72793a2b3cb0033bf7894cbce"
+  },
+  "nodeGroups": [],
+  "id": "w296b6Mb2eneKBFl",
+  "tags": []
+}
